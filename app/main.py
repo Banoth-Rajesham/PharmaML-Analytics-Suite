@@ -15,6 +15,7 @@ Author: Banoth Rajesham
 
 import streamlit as st
 import sys
+import time
 from pathlib import Path
 
 # Add project root to Python path so utils work from any page
@@ -108,7 +109,18 @@ st.markdown("""
 # ── Check database exists ─────────────────────────────────────────────────────
 db_ready = DB_PATH.exists()
 
-# ── Sidebar ───────────────────────────────────────────────────────────────────
+if not db_ready:
+    with st.spinner("🚀 First time setup: Generating synthetic clinical data..."):
+        try:
+            import subprocess
+            gen_path = Path(__file__).parent.parent / "data" / "generate_data.py"
+            subprocess.run(["python", str(gen_path)], check=True)
+            db_ready = True
+            st.success("✅ Data generated successfully!")
+            time.sleep(1)
+            st.rerun()
+        except Exception as e:
+            st.error(f"❌ Failed to generate data: {e}")
 with st.sidebar:
     st.markdown("## 💊 PharmaML Suite")
     st.markdown("---")
