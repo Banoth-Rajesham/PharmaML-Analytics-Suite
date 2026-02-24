@@ -35,7 +35,9 @@ st.set_page_config(
 st.markdown("""
 <style>
 
+/* ============================= */
 /* Import Font */
+/* ============================= */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 html, body, [class*="css"]  {
@@ -43,11 +45,17 @@ html, body, [class*="css"]  {
 }
 
 /* ============================= */
-/* Global App Background */
+/* Main App Background */
 /* ============================= */
 
 .stApp {
-    background: radial-gradient(circle at top left, #111827 0%, #0b1220 40%, #070d18 100%);
+    background:
+        linear-gradient(rgba(8,15,30,0.92), rgba(8,15,30,0.96)),
+        url("https://images.unsplash.com/photo-1581093458791-9d2d3f6a7b3c?q=80&w=2000");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
     color: #e6edf3;
 }
 
@@ -56,10 +64,10 @@ html, body, [class*="css"]  {
 /* ============================= */
 
 [data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #0f172a 0%, #111827 50%, #0b1220 100%);
+    background: linear-gradient(180deg, #0f172a 0%, #0b1220 100%);
     padding: 24px;
     border-right: 1px solid rgba(255,255,255,0.06);
-    box-shadow: 6px 0 30px rgba(0,0,0,0.4);
+    box-shadow: 6px 0 25px rgba(0,0,0,0.5);
 }
 
 [data-testid="stSidebar"] * {
@@ -77,12 +85,13 @@ html, body, [class*="css"]  {
 /* ============================= */
 
 .main-header {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    background: rgba(17,24,39,0.6);
+    backdrop-filter: blur(16px);
     padding: 2rem;
     border-radius: 18px;
     margin-bottom: 2rem;
     border: 1px solid rgba(59,130,246,0.3);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
 }
 
 /* ============================= */
@@ -90,16 +99,17 @@ html, body, [class*="css"]  {
 /* ============================= */
 
 [data-testid="stMetric"] {
-    background: linear-gradient(145deg, #111827, #0f172a);
+    background: rgba(17,24,39,0.65);
+    backdrop-filter: blur(12px);
     border-radius: 16px;
     padding: 20px;
     border: 1px solid rgba(59,130,246,0.25);
-    box-shadow: 0 6px 25px rgba(0,0,0,0.35);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.4);
     transition: all 0.25s ease;
 }
 
 [data-testid="stMetric"]:hover {
-    transform: translateY(-5px);
+    transform: translateY(-6px);
     border-color: #3b82f6;
 }
 
@@ -119,8 +129,8 @@ html, body, [class*="css"]  {
 /* ============================= */
 
 .feature-card {
-    background: rgba(17, 24, 39, 0.6);
-    backdrop-filter: blur(12px);
+    background: rgba(17,24,39,0.6);
+    backdrop-filter: blur(14px);
     border-radius: 16px;
     padding: 1.5rem;
     border: 1px solid rgba(59,130,246,0.25);
@@ -149,8 +159,8 @@ html, body, [class*="css"]  {
 }
 
 .stButton>button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(37,99,235,0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(37,99,235,0.5);
 }
 
 /* ============================= */
@@ -158,11 +168,22 @@ html, body, [class*="css"]  {
 /* ============================= */
 
 .stTextInput>div>div>input,
-.stTextArea textarea {
-    background-color: #111827;
-    color: #e5e7eb;
-    border-radius: 10px;
-    border: 1px solid rgba(59,130,246,0.25);
+.stTextArea textarea,
+.stSelectbox div[data-baseweb="select"] > div {
+    background-color: #111827 !important;
+    color: #e5e7eb !important;
+    border-radius: 10px !important;
+    border: 1px solid rgba(59,130,246,0.3) !important;
+}
+
+/* ============================= */
+/* Tables */
+/* ============================= */
+
+[data-testid="stDataFrame"] {
+    background: rgba(17,24,39,0.7);
+    border-radius: 12px;
+    border: 1px solid rgba(59,130,246,0.2);
 }
 
 /* ============================= */
