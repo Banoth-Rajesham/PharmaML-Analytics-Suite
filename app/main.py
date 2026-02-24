@@ -254,12 +254,11 @@ st.markdown("""
 if db_ready:
     try:
         stats = get_summary_stats()
-        c1, c2, c3, c4, c5 = st.columns(5)
+        c1, c2, c3, c4 = st.columns(4)
         c1.metric("👥 Total Patients",    f"{stats['total_patients']:,}")
         c2.metric("✅ Avg Success Rate",   f"{stats['avg_success_rate']}%")
         c3.metric("💊 Drugs in Trials",   stats["n_drugs"])
         c4.metric("🔬 Trial Phases",       stats["n_phases"])
-        c5.metric("🔬 work Phases",       stats["n_phse"])
     except Exception as e:
         st.warning(f"Could not load stats: {e}")
 else:
