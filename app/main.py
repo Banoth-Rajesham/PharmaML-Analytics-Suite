@@ -34,77 +34,162 @@ st.set_page_config(
 # ── Custom CSS for premium look ───────────────────────────────────────────────
 st.markdown("""
 <style>
-    /* Import Google Font */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
-    html, body, [class*="css"] {
-        font-family: 'Inter', sans-serif;
-    }
+/* Import Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-    /* Sidebar background */
-    [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #0d1b2a 0%, #1a3a5c 100%);
-    }
+html, body, [class*="css"]  {
+    font-family: 'Inter', sans-serif;
+}
 
-    /* Sidebar text */
-    [data-testid="stSidebar"] * {
-        color: #e8f4fd !important;
-    }
+/* ============================= */
+/* Global App Background */
+/* ============================= */
 
-    /* Metric cards */
-    [data-testid="stMetric"] {
-        background: linear-gradient(135deg, #1a3a5c, #0d253f);
-        border-radius: 12px;
-        padding: 16px;
-        border-left: 4px solid #1a73e8;
-    }
+.stApp {
+    background: radial-gradient(circle at top left, #111827 0%, #0b1220 40%, #070d18 100%);
+    color: #e6edf3;
+}
 
-    [data-testid="stMetricValue"] {
-        font-size: 2rem !important;
-        font-weight: 700 !important;
-        color: #4fc3f7 !important;
-    }
+/* ============================= */
+/* Sidebar */
+/* ============================= */
 
-    [data-testid="stMetricLabel"] {
-        color: #90caf9 !important;
-        font-size: 0.85rem !important;
-    }
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #0f172a 0%, #111827 50%, #0b1220 100%);
+    padding: 24px;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 6px 0 30px rgba(0,0,0,0.4);
+}
 
-    /* Main header */
-    .main-header {
-        background: linear-gradient(135deg, #0d1b2a 0%, #1a3a5c 50%, #0f4c75 100%);
-        padding: 2rem;
-        border-radius: 16px;
-        margin-bottom: 2rem;
-        border: 1px solid #1a73e8;
-    }
+[data-testid="stSidebar"] * {
+    color: #e2e8f0 !important;
+}
 
-    /* Feature cards */
-    .feature-card {
-        background: linear-gradient(135deg, #1a2744, #0d1b2a);
-        border-radius: 12px;
-        padding: 1.5rem;
-        border: 1px solid #1a73e8;
-        transition: transform 0.2s;
-        height: 100%;
-    }
+[data-testid="stSidebar"] button:hover {
+    background: rgba(59,130,246,0.15);
+    border-radius: 10px;
+    transition: 0.3s ease;
+}
 
-    .feature-card:hover {
-        transform: translateY(-4px);
-        border-color: #4fc3f7;
-    }
+/* ============================= */
+/* Header */
+/* ============================= */
 
-    /* General page background */
-    .stApp {
-        background: #0a1628;
-        color: #e8f4fd;
-    }
+.main-header {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    padding: 2rem;
+    border-radius: 18px;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(59,130,246,0.3);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
 
-    h1, h2, h3 { color: #4fc3f7; }
-    p, li       { color: #cfd8dc; }
+/* ============================= */
+/* Metric Cards */
+/* ============================= */
+
+[data-testid="stMetric"] {
+    background: linear-gradient(145deg, #111827, #0f172a);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid rgba(59,130,246,0.25);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.35);
+    transition: all 0.25s ease;
+}
+
+[data-testid="stMetric"]:hover {
+    transform: translateY(-5px);
+    border-color: #3b82f6;
+}
+
+[data-testid="stMetricValue"] {
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    color: #60a5fa !important;
+}
+
+[data-testid="stMetricLabel"] {
+    font-size: 0.9rem !important;
+    color: #94a3b8 !important;
+}
+
+/* ============================= */
+/* Feature Cards */
+/* ============================= */
+
+.feature-card {
+    background: rgba(17, 24, 39, 0.6);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid rgba(59,130,246,0.25);
+    transition: all 0.25s ease;
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-6px);
+    border-color: #60a5fa;
+    box-shadow: 0 10px 35px rgba(59,130,246,0.25);
+}
+
+/* ============================= */
+/* Buttons */
+/* ============================= */
+
+.stButton>button {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+    border-radius: 12px;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
+
+.stButton>button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(37,99,235,0.4);
+}
+
+/* ============================= */
+/* Inputs */
+/* ============================= */
+
+.stTextInput>div>div>input,
+.stTextArea textarea {
+    background-color: #111827;
+    color: #e5e7eb;
+    border-radius: 10px;
+    border: 1px solid rgba(59,130,246,0.25);
+}
+
+/* ============================= */
+/* Typography */
+/* ============================= */
+
+h1 {
+    color: #60a5fa;
+    font-weight: 700;
+}
+
+h2, h3 {
+    color: #93c5fd;
+}
+
+p, li {
+    color: #cbd5e1;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #3b82f6, transparent);
+}
+
 </style>
 """, unsafe_allow_html=True)
-
 
 # ── Check database exists ─────────────────────────────────────────────────────
 db_ready = check_and_init_db()
