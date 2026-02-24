@@ -21,7 +21,7 @@ from pathlib import Path
 # Add project root to Python path so utils work from any page
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from app.utils.db import get_summary_stats, DB_PATH
+from app.utils.db import get_summary_stats, DB_PATH, check_and_init_db
 
 # ── Page config (must be FIRST streamlit call) ────────────────────────────────
 st.set_page_config(
@@ -107,20 +107,8 @@ st.markdown("""
 
 
 # ── Check database exists ─────────────────────────────────────────────────────
-db_ready = DB_PATH.exists()
+db_ready = check_and_init_db()
 
-if not db_ready:
-    with st.spinner("🚀 First time setup: Generating synthetic clinical data..."):
-        try:
-            import subprocess
-            gen_path = Path(__file__).parent.parent / "data" / "generate_data.py"
-            subprocess.run(["python", str(gen_path)], check=True)
-            db_ready = True
-            st.success("✅ Data generated successfully!")
-            time.sleep(1)
-            st.rerun()
-        except Exception as e:
-            st.error(f"❌ Failed to generate data: {e}")
 with st.sidebar:
     st.markdown("## 💊 PharmaML Suite")
     st.markdown("---")
@@ -136,7 +124,9 @@ with st.sidebar:
     if db_ready:
         st.success("✅ Database connected")
     else:
-        st.error("❌ Run `python data/generate_data.py` first")
+        st.error("❌ Database initialization failed")
+        if st.button("Retry Initialization"):
+            st.rerun()
     st.markdown("---")
     st.info("**Author:** Banoth Rajesham  \n**Role:** Data Scientist")
 

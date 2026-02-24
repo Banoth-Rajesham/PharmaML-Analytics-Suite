@@ -24,7 +24,7 @@ from pathlib import Path
 # Ensure project root is in path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from app.utils.db import load_patients, load_drug_info, run_query
+from app.utils.db import load_patients, load_drug_info, run_query, check_and_init_db
 
 # ── Page setup ────────────────────────────────────────────────────────────────
 st.set_page_config(page_title="Data Overview | PharmaML", page_icon="📂", layout="wide")
@@ -32,11 +32,25 @@ st.set_page_config(page_title="Data Overview | PharmaML", page_icon="📂", layo
 st.title("📂 Data Overview & SQL Explorer")
 st.markdown("Browse and filter clinical trial records stored in the SQLite database.")
 
+# Ensure DB is ready
+if not check_and_init_db():
+    st.error("No data found. Please run `python data/generate_data.py` first.")
+    st.stop()
+
 # ── Sidebar filters ───────────────────────────────────────────────────────────
 st.sidebar.header("🔽 Filter Records")
 
 # Load unfiltered first to get unique values for dropdowns
 df_all = load_patients()
+
+if df_all.empty:
+    st.warning("⚠️ The database is currently empty. Please check your data generation script.")
+    if st.button("🚀 Generate Synthetic Data Now"):
+        with st.spinner("Generating..."):
+            if check_and_init_db():
+                st.success("✅ Data generated!")
+                st.rerun()
+    st.stop()
 
 drug_options   = ["All"] + sorted(df_all["drug_assigned"].unique().tolist())
 phase_options  = ["All"] + sorted(df_all["trial_phase"].unique().tolist())
@@ -58,9 +72,9 @@ df = load_patients(filters) if filters else df_all.copy()
 # ── KPI strip ─────────────────────────────────────────────────────────────────
 k1, k2, k3, k4 = st.columns(4)
 k1.metric("📋 Records",       f"{len(df):,}")
-k2.metric("✅ Success Rate",   f"{df['treatment_success'].mean()*100:.1f}%")
-k3.metric("⚠️ Dropout Rate",  f"{df['dropout'].mean()*100:.1f}%")
-k4.metric("📅 Avg Trial Days", f"{df['trial_duration_days'].mean():.0f} days")
+k2.metric("✅ Success Rate",   f"{df['treatment_success'].mean()*100:.1f}%" if not df.empty else "0.0%")
+k3.metric("⚠️ Dropout Rate",  f"{df['dropout'].mean()*100:.1f}%" if not df.empty else "0.0%")
+k4.metric("📅 Avg Trial Days", f"{df['trial_duration_days'].mean():.0f} days" if not df.empty else "0 days")
 
 st.markdown("---")
 

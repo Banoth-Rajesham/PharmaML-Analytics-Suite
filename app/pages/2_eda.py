@@ -20,7 +20,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from app.utils.db             import load_patients
+from app.utils.db             import load_patients, check_and_init_db
 from app.utils.visualizations import (
     plot_success_by_drug, plot_age_distribution, plot_correlation_heatmap,
     plot_trial_phase_success, plot_bmi_vs_success, plot_dosage_side_effects,
@@ -32,11 +32,21 @@ st.set_page_config(page_title="EDA | PharmaML", page_icon="📈", layout="wide")
 st.title("📈 Exploratory Data Analysis")
 st.markdown("Interactive visualizations to understand clinical trial data patterns.")
 
+# Ensure DB is ready
+if not check_and_init_db():
+    st.error("No data found. Please run `python data/generate_data.py` first.")
+    st.stop()
+
 # Load data
 df = load_patients()
 
 if df.empty:
-    st.error("No data found. Run `python data/generate_data.py` first.")
+    st.warning("⚠️ The database is currently empty. Please check your data generation script.")
+    if st.button("🚀 Generate Synthetic Data Now"):
+        with st.spinner("Generating..."):
+            if check_and_init_db():
+                st.success("✅ Data generated!")
+                st.rerun()
     st.stop()
 
 # ── Section 1: Summary Stats ──────────────────────────────────────────────────
